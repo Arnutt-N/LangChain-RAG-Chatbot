@@ -16,10 +16,20 @@ import tempfile
 st.set_page_config(layout="wide", page_title="Gen AI : RAG Chatbot with Documents")
 
 # Load environment variables
-load_dotenv()
+# load_dotenv()
 
 # Set OpenAI API key
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+# os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+
+# Retrieve the API key from Streamlit secrets
+api_key = st.secrets["OPENAI_API_KEY"]
+
+# Ensure the script stops execution if the API key is not set
+if api_key is None:
+    st.error("OPENAI_API_KEY is not set. Please set it in the Streamlit Cloud secrets.")
+    st.stop()
+else:
+    os.environ["OPENAI_API_KEY"] = api_key
 
 # Translations
 translations = {
